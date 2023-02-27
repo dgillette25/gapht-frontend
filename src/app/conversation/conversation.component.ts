@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+
 import { FormBuilder } from '@angular/forms';
 import axios from 'axios';
 import { ChatService } from '../chat.service';
 import { environment } from '../../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-conversation',
@@ -17,10 +19,10 @@ export class ConversationComponent {
   constructor(
     private chatService: ChatService,
     private formBuilder: FormBuilder,
+    private _snackBar: MatSnackBar
   ) {}
 
   clearChat(): void {
-    console.log('here');
     this.conversation.clear();
 
   }
@@ -39,6 +41,10 @@ export class ConversationComponent {
         .then(response => {
           this.loading = false;
           this.conversation.setConversation(response.data.result);
+        })
+        .catch(error => {
+          this.loading = false;
+          this._snackBar.open("Sorry there was an issue", "Close")
         });
     
     this.chatForm.reset();
