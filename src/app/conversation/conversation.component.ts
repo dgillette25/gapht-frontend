@@ -34,8 +34,9 @@ export class ConversationComponent {
     this.chat.clear();
   }
 
-  async getChat(answer: Answer) {
+  async getChat(answer: any) {
     this.chatService.setConversation(answer.result);
+    this.chatService.setId(answer._links.answer.href.match(/\d+$/)[0]);
   }
 
   openDialog(): void {
