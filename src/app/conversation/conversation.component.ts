@@ -3,8 +3,12 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import axios from 'axios';
 import { ChatService } from '../chat.service';
+import { HistoryService } from '../history.service';
 import { environment } from '../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { HistoryDialogComponent } from '../history-dialog/history-dialog.component';
+import { Answer } from '../interfaces';
 
 @Component({
   selector: 'app-conversation',
@@ -12,35 +16,55 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./conversation.component.scss']
 })
 export class ConversationComponent {
-  conversation = this.chatService;
+  chat = this.chatService;
+  history = this.historyService;
   chatForm = this.formBuilder.group(this.chatService);
   loading = false;
+  test = this.loadChats();
 
   constructor(
     private chatService: ChatService,
+    private historyService: HistoryService,
     private formBuilder: FormBuilder,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {}
 
   clearChat(): void {
-    this.conversation.clear();
+    this.chat.clear();
+  }
 
+  async getChat(answer: Answer) {
+    this.chatService.setConversation(answer.result);
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(HistoryDialogComponent, {
+      data: this.history,
+    });
+  }
+  
+  async loadChats() {
+    let response = await axios.get(`${environment.apiUrl}/answers/search/findByUuid?uuid=${this.chat.getUuid()}`)
+    this.history.set(response.data._embedded.answers);
   }
 
   onSubmit(): void {
-    let chat = this.chatForm.value;
-    chat.prompt = chat.prompt;
-    this.conversation.setPrompt(
-      this.conversation.getConversation() + "\n\n" + chat.prompt
+    let stateChat = this.chatForm.value;
+    this.chat.setPrompt(
+      this.chat.getConversation() + "\n\n" + stateChat.prompt
     );
-    console.log(this.conversation);
+    console.log(this.chat);
     this.loading = true;
 
     
-    axios.post(`${environment.apiUrl}/completions`, this.conversation)
+    axios.post(`${environment.apiUrl}/completions`, this.chat)
         .then(response => {
+          this.chat.setId(response.data.id);
+          this.chat.setConversation(response.data.result);
+          this.chat.setUuid(response.data.uuid);
+          this.loadChats();
           this.loading = false;
-          this.conversation.setConversation(response.data.result);
         })
         .catch(error => {
           this.loading = false;

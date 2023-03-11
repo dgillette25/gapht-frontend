@@ -1,42 +1,55 @@
-<div class="main">
-  <form [formGroup]="chatForm" (ngSubmit)="onSubmit()">
-    <div>
-      <mat-card class="chatCard">
-        <mat-card-header class="chatCardHeader">
-          <h3>Gapht</h3>
-          <p class="subheader">A simple chat powered by OpenAI</p>
-        </mat-card-header>
-        <mat-card-content class="chatCardContent">
-          <p [innerHTML]="conversation.conversation"></p>
-        </mat-card-content>
-        <mat-card-footer class="chatCardFooter">
-          <div>
-            <mat-form-field class="chatCardInput">
-              <input matInput placeholder="Ask a question" formControlName="prompt">
-            </mat-form-field>
-          </div>
-          <div class="chatCardButton">
-            <button
-              mat-raised-button
-              color="primary"
-              type="submit"
-              [disabled]="loading"
-              >
-                Ask
-             </button>
-            <button
-              mat-raised-button
-              color="warn"
-              (click)="clearChat()"
-              clickable
-              [disabled]="loading"
-              >
-                Reset
-            </button>
-            <mat-spinner *ngIf="loading" diameter="35"></mat-spinner>
-          </div>
-        </mat-card-footer>
-      </mat-card>
+<mat-drawer-container class="example-container" hasBackdrop="false">
+  <mat-drawer #drawer mode="push" style="max-width: 50vw">
+    <mat-selection-list #shoes>
+      <mat-list-item *ngFor="let answer of history.getAnswers()" (click)="getChat(answer)">
+        {{answer.prompt}}
+      </mat-list-item>
+    </mat-selection-list>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="main">
+      <form [formGroup]="chatForm" (ngSubmit)="onSubmit()">
+        <div>
+          <mat-card class="chatCard">
+            <mat-card-header class="chatCardHeader">
+              <button mat-icon-button type="button" style="padding: 0px; height: 36px" (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
+              <h3>Gapht</h3>
+              <p class="subheader">A simple chat powered by OpenAI</p>
+            </mat-card-header>
+            <mat-card-content class="chatCardContent">
+              <p [innerHTML]="chat.conversation"></p>
+            </mat-card-content>
+            <mat-card-footer class="chatCardFooter">
+              <div>
+                <mat-form-field class="chatCardInput">
+                  <input matInput placeholder="Ask a question" formControlName="prompt">
+                </mat-form-field>
+              </div>
+              <div class="chatCardButton">
+                <button
+                  mat-raised-button
+                  color="primary"
+                  type="submit"
+                  [disabled]="loading"
+                  >
+                    Ask
+                </button>
+                <button
+                  mat-raised-button
+                  color="warn"
+                  type="button"
+                  (click)="clearChat()"
+                  clickable
+                  [disabled]="loading"
+                  >
+                    Reset
+                </button>
+                <mat-spinner *ngIf="loading" diameter="35"></mat-spinner>
+              </div>
+            </mat-card-footer>
+          </mat-card>
+        </div>
+      </form>
     </div>
-  </form>
-</div>
+  </mat-drawer-content>
+</mat-drawer-container>

@@ -10,12 +10,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HistoryDialogComponent } from './history-dialog/history-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    ConversationComponent
+    ConversationComponent,
+    HistoryDialogComponent
   ],
   imports: [
     AppRoutingModule,
@@ -27,6 +34,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatCardModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatIconModule,
+    MatDialogModule,
+    MatListModule,
+    MatSidenavModule,
     MatButtonModule
   ],
   providers: [],
