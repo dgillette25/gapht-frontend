@@ -42,7 +42,7 @@ export class ChatService {
   }
 
   getUuid() : any {
-    return this.uuid && this.uuid != undefined ? this.uuid : null;
+    return this.uuid;
   }
 
   getConversation() : String {

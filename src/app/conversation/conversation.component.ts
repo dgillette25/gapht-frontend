@@ -46,7 +46,7 @@ export class ConversationComponent {
   }
   
   async loadChats() {
-    let response = await axios.get(`${environment.apiUrl}/answers/search/findByUuid?uuid=`)
+    let response = await axios.get(`${environment.apiUrl}/answers/search/findByUuid?uuid=${this.chat.getUuid()}`)
     this.history.set(response.data._embedded.answers);
   }
 
