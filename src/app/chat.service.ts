@@ -10,11 +10,10 @@ export class ChatService {
   uuid: any = '';
 
   constructor() { 
-    // let uuid = localStorage.getItem('uuid');
-    // console.log(uuid);
-    // if (uuid != null && uuid != undefined) {
-    //   this.uuid = uuid;
-    // }
+    let uuid = localStorage.getItem('uuid');
+    if (uuid != null && uuid != undefined) {
+      this.uuid = uuid;
+    }
   }
 
   setId(id: Number) {
