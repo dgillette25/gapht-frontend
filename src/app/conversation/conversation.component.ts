@@ -46,7 +46,7 @@ export class ConversationComponent {
   }
   
   async loadChats() {
-    let response = await axios.get(`${environment.apiUrl}/answers/search/findByUuid?uuid=${this.chat.getUuid()}`)
+    let response = await axios.get(`${environment.apiUrl}/answers/search/findByUuid?uuid=`)
     this.history.set(response.data._embedded.answers);
   }
 
@@ -59,7 +59,7 @@ export class ConversationComponent {
     this.loading = true;
 
     
-    axios.post(`${environment.apiUrl}/completions`, this.chat)
+    axios.post(`${environment.apiUrl}/completions/`, this.chat)
         .then(response => {
           this.chat.setId(response.data.id);
           this.chat.setConversation(response.data.result);

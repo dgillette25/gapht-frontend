@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://data.gapht.us'
+  apiUrl: 'http://localhost:8081'
 };

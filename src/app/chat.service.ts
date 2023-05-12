@@ -7,14 +7,14 @@ export class ChatService {
   id: Number | null = null;
   prompt: String = '';
   conversation: String = '';
-  uuid: String = '';
+  uuid: any = '';
 
   constructor() { 
-    let uuid = localStorage.getItem('uuid');
-    console.log(uuid);
-    if (uuid != null) {
-      this.uuid = uuid;
-    }
+    // let uuid = localStorage.getItem('uuid');
+    // console.log(uuid);
+    // if (uuid != null && uuid != undefined) {
+    //   this.uuid = uuid;
+    // }
   }
 
   setId(id: Number) {
@@ -42,8 +42,8 @@ export class ChatService {
     return this.prompt;
   }
 
-  getUuid() : String {
-    return this.uuid;
+  getUuid() : any {
+    return this.uuid && this.uuid != undefined ? this.uuid : null;
   }
 
   getConversation() : String {
